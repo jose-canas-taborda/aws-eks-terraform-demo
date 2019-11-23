@@ -52,7 +52,7 @@ resource "aws_security_group_rule" "node-sg-ingress-self" {
     type                     = "ingress"
 }
 
-resource "aws_security_group_rule" "demo-node-ingress-cluster" {
+resource "aws_security_group_rule" "node-sg-ingress-cluster" {
     description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
     from_port                = 1025
     protocol                 = "tcp"
