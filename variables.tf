@@ -1,3 +1,8 @@
+variable "profile" {
+  description = "AWS User account Profile"
+  default = "mariajosefa"
+}
+
 variable "region" {
     default = "us-east-1"
 }
@@ -6,52 +11,35 @@ variable "cluster_name" {
     default = "eks-aws-cluster"
     type    = string
 }
-/*
-variable "map_accounts" {
-    description = "Additional AWS account numbers to add to the aws-auth configmap."
-    type        = list(string)
-    default     = [
-        "777777777777",
-        "888888888888",
-    ]
+
+variable "key_name" {
+    type    = string
+    default   = "id_rsa"
 }
 
-variable "map_roles" {
-    description = "Additional IAM roles to add to the aws-auth configmap."
-    type = list(object({
-        rolearn  = string
-        username = string
-        groups   = list(string)
-    }))
-
-    default = [
-        {
-            rolearn  = "arn:aws:iam::66666666666:role/role1"
-            username = "role1"
-            groups   = ["system:masters"]
-        },
-    ]
+variable "server_name" {
+    type    = string
+    default   = "k8s-server"
 }
 
-variable "map_users" {
-    description = "Additional IAM users to add to the aws-auth configmap."
-    type = list(object({
-        userarn  = string
-        username = string
-        groups   = list(string)
-    }))
-
-    default = [
-        {
-            userarn  = "arn:aws:iam::66666666666:user/user1"
-            username = "user1"
-            groups   = ["system:masters"]
-        },
-        {
-            userarn  = "arn:aws:iam::66666666666:user/user2"
-            username = "user2"
-            groups   = ["system:masters"]
-        },
-    ]
+variable "sub_ids" {
+  default = []
 }
-*/
+
+variable "instance-ami" {
+  default = "ami-02278c99dc08975a9" # AMI of Mumbai region
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+variable "server-name" {
+  description = "Ec2 Server Name"
+  default     = "eks-server-demo"
+}
+
+variable "vpc_name" {
+  description = "VPC name"
+  default     = "eks-vpc-demo"
+}

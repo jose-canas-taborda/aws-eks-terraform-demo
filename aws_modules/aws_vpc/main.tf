@@ -100,7 +100,7 @@ resource "aws_route_table_association" "master" {
 resource "aws_route_table_association" "public" {
     count          = length(var.public_subnets_cidr)
     subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
-    route_table_id = aws_default_route_table.public.id
+    route_table_id = aws_default_route_table.rt_public.id
     depends_on     = [aws_subnet.public_subnet]
 }
 
@@ -118,7 +118,7 @@ resource "aws_nat_gateway" "nat-gw" {
 	allocation_id = aws_eip.eip.id
 	subnet_id     = element(aws_subnet.master_subnet.*.id, 0)
 	
-	tags {
+	tags = {
 		Name = "Nat_gateway"
 	}
 }
@@ -132,7 +132,7 @@ resource "aws_route_table" "rt_private" {
 		nat_gateway_id = aws_nat_gateway.nat-gw.id
 	}
 	
-	tags {
+	tags = {
 		Name = "Private_route_table"
 	}
 }
