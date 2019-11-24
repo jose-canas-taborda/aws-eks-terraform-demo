@@ -22,7 +22,7 @@ resource "aws_s3_bucket" "envio-demo-terraform-state" {
     }
  
     lifecycle {
-      prevent_destroy = true
+      prevent_destroy = false
     }
  
     tags = {
