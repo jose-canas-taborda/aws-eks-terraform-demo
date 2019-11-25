@@ -23,12 +23,13 @@ resource "aws_security_group" "k8s-server-instance-sg" {
 }
 
 resource "aws_instance" "k8s-server" {
-    instance_type          = var.instance_type
     ami                    = var.instance_ami
+    instance_type          = var.instance_type
     key_name               = var.instance_key
     subnet_id              = var.k8-subnet
+    private_ip             = "10.0.4.10"
     vpc_security_group_ids = [aws_security_group.k8s-server-instance-sg.id]
-    
+
     root_block_device {
         volume_type           = "gp2"
         volume_size           = "50"

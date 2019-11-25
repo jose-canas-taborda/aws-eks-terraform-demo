@@ -33,7 +33,7 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: ${aws_iam_role.cluster-role.arn}
+    - rolearn: ${aws_iam_role.worker-node-role.arn}
       username: system:node:{{EC2PrivateDNSName}}
       groups:
         - system:bootstrappers
@@ -47,4 +47,8 @@ output "kubeconfig" {
 
 output "config_map_aws_auth" {
     value = local.config_map_aws_auth
+}
+
+output "cluster-name" {
+  value = aws_eks_cluster.eks-cluster.name
 }

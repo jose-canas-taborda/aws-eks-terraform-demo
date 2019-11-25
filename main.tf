@@ -3,7 +3,6 @@ provider "aws" {
 }
 
 terraform {
-    required_version = ">= 0.12.0"
     backend "s3" {
         encrypt = true
         bucket = "envio-demo-terraform-state"
@@ -15,7 +14,7 @@ terraform {
 # VPC - Production & Staging
 module "vpc" {
     source  = "./aws_modules/aws_vpc"
-    cluster_name    = var.cluster_name
+    cluster_name    = var.cluster-name
     cidr_block      = "10.0.0.0/16"
     enable_dns_support = true
     enable_dns_hostnames = true
@@ -28,7 +27,7 @@ module "vpc" {
 module "k8s-server" {
     source        = "./aws_modules/aws_k8s"
     instance_type = "t2.micro"
-    instance_ami  = "ami-02278c99dc08975a9"
+    instance_ami  = "ami-07d6c8e62ce328a10"
     server-name   = var.server_name
     instance_key  = var.key_name
     vpc_id        = module.vpc.id
@@ -38,11 +37,17 @@ module "k8s-server" {
 module "eks" {
     source                  = "./aws_modules/aws_eks"
     vpc_id                  = module.vpc.id
-    cluster-name            = var.cluster_name
+    cluster-name            = var.cluster-name
     k8s-server-instance-sg  = module.k8s-server.k8s-server-instance-sg
     eks_subnets             = module.vpc.master_subnet
     worker_subnet           = module.vpc.worker_node_subnet
-    subnet_ids              = module.vpc.master_subnet#, module.vpc.worker_node_subnet])
+    subnet_ids              = module.vpc.public_subnet #, module.vpc.worker_node_subnet])
+}
+
+# Key pair
+resource "aws_key_pair" "terraform-eks-key" {
+  key_name = "terraform-eks-key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQBm3/f2rQUfwS2c5+z+V8+FD1syJYr7Gcge6NaYAqH4SVkli3E7N9awwwYwguQij7kmW/qopDHgfHS7k20Q9UvuMft+iJ69Nsrodg2Yi+z/SjbOrTcycuJ87L2JVpM/bbyUObn6if3GXSy8pElM/shyylzMSq9VryN38PLaz5yFQmBRSVWfiCxlda7b0yACb/cGaP0zE1vCufFiFOHohFEZkch6BUprPdENvcVB1Yft0Z9NsLaaRzDEFKAIEAoXsZGXQSLSeChcko+qKhSsL6o48zeV1clApJ/KZRp0cLA4fIJtZp51FKHtomU2x7MoeK//BfUlalCAjrdp1iZ5eTaF rsa-key-20191124"
 }
 
 # create an S3 bucket to store the state file in

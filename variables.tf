@@ -7,14 +7,14 @@ variable "region" {
     default = "us-east-1"
 }
 
-variable "cluster_name" {
+variable "cluster-name" {
     default = "eks-aws-cluster"
     type    = string
 }
 
 variable "key_name" {
     type    = string
-    default   = "id_rsa"
+    default   = "terraform-eks-key"
 }
 
 variable "server_name" {
@@ -27,7 +27,7 @@ variable "sub_ids" {
 }
 
 variable "instance-ami" {
-  default = "ami-02278c99dc08975a9" # AMI of Mumbai region
+  default = "ami-07d6c8e62ce328a10" # AMI of amazon-eks-node-1.14-v20191119 November 19, 2019
 }
 
 variable "instance_type" {
