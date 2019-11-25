@@ -45,6 +45,13 @@ module "eks" {
     private_subnet_ids      = module.vpc.private_subnet
 }
 
+module "k8s_ingress_controller" {
+	source = "./aws_modules/alb_nginx_ingress"
+	
+	cluster_endpoint = module.eks.endpoint
+	cluster_name     = module.eks.cluster-name
+}
+
 # Key pair
 resource "aws_key_pair" "terraform-eks-key" {
   key_name = "terraform-eks-key"
