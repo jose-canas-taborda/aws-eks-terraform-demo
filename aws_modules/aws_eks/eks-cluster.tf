@@ -74,7 +74,7 @@ resource "aws_eks_cluster" "eks-cluster" {
     
     vpc_config {
         security_group_ids = [aws_security_group.cluster-sg.id]
-        subnet_ids         = var.subnet_ids
+        subnet_ids         = var.public_subnet_ids
     }
 
     depends_on = [
@@ -83,12 +83,43 @@ resource "aws_eks_cluster" "eks-cluster" {
     ]
 }
 
-# EKS Node Group
-resource "aws_eks_node_group" "node-group" {
+# EKS Node Group Development
+resource "aws_eks_node_group" "node-group-dev" {
     cluster_name    = aws_eks_cluster.eks-cluster.name
-    node_group_name = "node-group"
+    node_group_name = "node-group-dev"
     node_role_arn   = aws_iam_role.worker-node-role.arn
-    subnet_ids      = var.subnet_ids
+    subnet_ids      = var.private_subnet_ids[0]
+    instance_types  = ["t2.micro"]
+    
+    scaling_config {
+        desired_size = 1
+        max_size     = 1
+        min_size     = 1
+    }
+}
+
+# EKS Node Group Staging
+resource "aws_eks_node_group" "node-group-stg" {
+    cluster_name    = aws_eks_cluster.eks-cluster.name
+    node_group_name = "node-group-stg"
+    node_role_arn   = aws_iam_role.worker-node-role.arn
+    subnet_ids      = var.private_subnet_ids[0]
+    instance_types  = ["t2.micro"]
+    
+    scaling_config {
+        desired_size = 1
+        max_size     = 1
+        min_size     = 1
+    }
+}
+
+# EKS Node Group Production
+resource "aws_eks_node_group" "node-group-prd" {
+    cluster_name    = aws_eks_cluster.eks-cluster.name
+    node_group_name = "node-group-prd"
+    node_role_arn   = aws_iam_role.worker-node-role.arn
+    subnet_ids      = var.public_subnet_ids
+    instance_types  = ["t2.micro"]
     
     scaling_config {
         desired_size = 1

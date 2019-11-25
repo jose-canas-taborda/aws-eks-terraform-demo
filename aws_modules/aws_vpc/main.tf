@@ -38,6 +38,7 @@ resource "aws_subnet" "private_subnet" {
 
     tags = {
         Name = join("-", [var.cluster_name, "private", "subnets"])
+        join("",["kubernetes.io/cluster/", var.cluster_name]) = "shared"
     }
 }
 

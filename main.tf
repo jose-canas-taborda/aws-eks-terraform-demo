@@ -41,7 +41,8 @@ module "eks" {
     k8s-server-instance-sg  = module.k8s-server.k8s-server-instance-sg
     eks_subnets             = module.vpc.master_subnet
     worker_subnet           = module.vpc.worker_node_subnet
-    subnet_ids              = module.vpc.public_subnet #, module.vpc.worker_node_subnet])
+    public_subnet_ids       = module.vpc.public_subnet #, module.vpc.worker_node_subnet])
+    private_subnet_ids      = module.vpc.private_subnet
 }
 
 # Key pair

@@ -13,8 +13,12 @@ variable "worker_subnet" {
     type = list
 }
 
-variable "subnet_ids" {
-    description = "List of all subnet in cluster"
+variable "public_subnet_ids" {
+    description = "List of all public subnets in cluster"
+}
+
+variable "private_subnet_ids" {
+    description = "List of all private subnet in cluster"
 }
 
 variable "k8s-server-instance-sg" {
